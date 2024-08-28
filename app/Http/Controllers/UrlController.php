@@ -9,8 +9,15 @@ use Illuminate\Support\Facades\Auth;
 
 class UrlController extends Controller
 {
+
+    /**
+     * @var \App\Services\UrlShortenerService
+     */
     protected UrlShortenerService $urlShortenerService;
 
+    /**
+     * @param \App\Services\UrlShortenerService $urlShortenerService
+     */
     public function __construct(UrlShortenerService $urlShortenerService)
     {
         $this->urlShortenerService = $urlShortenerService;
