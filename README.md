@@ -28,4 +28,7 @@ php artisan migrate
 
 # Update .env file with correct data (see the .env.example)
 
+# Run the app
+php artisan serve
+
 ```

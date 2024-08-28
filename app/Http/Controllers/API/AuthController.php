@@ -8,9 +8,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use OpenApi\Annotations as OA;
 
 class AuthController extends Controller {
 
+    /**
+     * Authenticate user
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Foundation\Application|\Illuminate\Http\Response
+     */
     public function login(Request $request) {
         $data = $request->validate([
             'email' => 'required|string',
@@ -35,6 +42,12 @@ class AuthController extends Controller {
         return response($res, 201);
     }
 
+    /**
+     * Register new User
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Foundation\Application|\Illuminate\Http\Response
+     */
     public function register(Request $request) {
         $data = $request->validate([
             'name' => 'required|string',
@@ -56,6 +69,13 @@ class AuthController extends Controller {
         return response($res, 201);
     }
 
+    /**
+     * Logout User
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return string[]
+     */
     public function logout(Request $request){
 
         auth()->user()->tokens()->delete();

@@ -17,6 +17,7 @@ class UrlController extends Controller
     }
 
     /**
+     *
      * Return a list of URLs, of the logged-in user
      *
      * @return \Illuminate\Http\JsonResponse
@@ -27,8 +28,7 @@ class UrlController extends Controller
     }
 
     /**
-     *
-     * Add new URL
+     * Store new URL
      *
      * @param \Illuminate\Http\Request $request
      *
