@@ -16,13 +16,16 @@ First, clone this repository:
 
 ```bash
 # Clone git repo...
-git clone git@github.com:radusoltan/deschide_api.git
+git clone git@github.com:radusoltan/url_shortener.git
 
-cd deschide_api
+cd url_shortener
 
 # Install dependencies...
 composer install
 
 # Run database migrations...
 php artisan migrate
+
+# Update .env file with correct data (see the .env.example)
+
 ```
