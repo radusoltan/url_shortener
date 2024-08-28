@@ -5,15 +5,13 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
-use OpenApi\Annotations as OA;
+use Illuminate\Validation\Rules;
 
 class AuthController extends Controller {
 
     /**
-     * Authenticate user
+     * Authenticate user. Handle an incoming authentication request.
      * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Foundation\Application|\Illuminate\Http\Response
@@ -43,16 +41,17 @@ class AuthController extends Controller {
     }
 
     /**
-     * Register new User
+     * Register new User. Handle an incoming registration request.
      * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Foundation\Application|\Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function register(Request $request) {
         $data = $request->validate([
             'name' => 'required|string',
             'email' => 'required|string|unique:users,email',
-            'password' => 'required|string|confirmed'
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
         $user = User::create([
@@ -70,7 +69,7 @@ class AuthController extends Controller {
     }
 
     /**
-     * Logout User
+     * Logout User. Destroy an authenticated session.
      *
      * @param \Illuminate\Http\Request $request
      *

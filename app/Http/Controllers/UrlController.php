@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UrlResource;
 use App\Models\Url;
 use App\Services\UrlShortenerService;
 use Illuminate\Http\Request;
@@ -27,19 +28,19 @@ class UrlController extends Controller
      *
      * Return a list of URLs, of the logged-in user
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
     {
-        return response()->json(Auth::user()->urls()->paginate());
+        return UrlResource::collection(Auth::user()->urls()->paginate());
     }
 
     /**
-     * Store new URL
+     * Store and short new URL
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return \App\Http\Resources\UrlResource
      */
     public function store(Request $request)
     {
@@ -49,7 +50,7 @@ class UrlController extends Controller
 
         $url = $this->urlShortenerService->createShortenedUrl(Auth::user(), $request->url);
 
-        return response()->json($url, 201);
+        return new UrlResource($url);
     }
 
     /**
@@ -59,7 +60,7 @@ class UrlController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Url $url
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return \App\Http\Resources\UrlResource
      */
     public function update(Request $request, Url $url)
     {
@@ -72,7 +73,7 @@ class UrlController extends Controller
             'original_url' => $request->original_url
         ]);
 
-        return response()->json($url);
+        return new UrlResource($url);
     }
 
     /**
@@ -85,8 +86,6 @@ class UrlController extends Controller
      */
     public function destroy(Url $url)
     {
-
-
         $url->delete();
 
         return response()->json(null, 204);
@@ -98,12 +97,11 @@ class UrlController extends Controller
      *
      * @param \App\Models\Url $url
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return \App\Http\Resources\UrlResource
      */
     public function show(Url $url)
     {
-
-        return response()->json($url);
+        return new UrlResource($url);
     }
 
 }
